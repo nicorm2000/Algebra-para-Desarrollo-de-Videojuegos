@@ -285,11 +285,15 @@ namespace CustomMath
         }
         public void Set(float newX, float newY, float newZ)
         {
-            throw new NotImplementedException();
+            this.x = newX;
+            this.y = newY;
+            this.z = newZ;
         }
         public void Scale(Vec3 scale)
         {
-            throw new NotImplementedException();
+            this.x *= scale.x;
+            this.y *= scale.y;
+            this.z *= scale.z;
         }
         public void Normalize()
         {
