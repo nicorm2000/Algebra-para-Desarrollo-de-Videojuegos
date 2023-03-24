@@ -12,6 +12,8 @@ public class testing : MonoBehaviour
         print(Vector3.Magnitude(j));
         print(Vector3.ClampMagnitude(j, m));
         print(Vector3.Magnitude(j));
+
+        print(Mathf.Acos(3));
     }
 
     // Update is called once per frame

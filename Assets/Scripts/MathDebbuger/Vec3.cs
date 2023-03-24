@@ -130,18 +130,32 @@ namespace CustomMath
         }
         public static float Angle(Vec3 from, Vec3 to)
         {
-            throw new NotImplementedException();
+            //Angle between two vectors using Dot Product
+            //θ = cos-1 [ (a · b) / (|a| |b|) ]
+
+            float num1 = Dot(from, to);
+            float num2 = Magnitude(from);
+            float num3 = Magnitude(to);
+            float division = ((num1) / (num2 * num3));
+
+            return MathF.Acos(division);
         }
         public static Vec3 ClampMagnitude(Vec3 vector, float maxLength)
         {
-            throw new NotImplementedException();
+            if (Magnitude(vector) <= maxLength && Magnitude(vector) >= 0)
+            {
+                return vector;
+            }
+            else
+            {
+                return (vector / Magnitude(vector)) * maxLength;
+            }
         }
         public static float Magnitude(Vec3 vector)
         {
             float vectorMagnitudeSum = (vector.x * vector.x) + (vector.y * vector.y) + (vector.z * vector.z);
-            float vectorMagnitude = MathF.Sqrt(vectorMagnitudeSum);
 
-            return vectorMagnitude;
+            return MathF.Sqrt(vectorMagnitudeSum);
         }
         public static Vec3 Cross(Vec3 a, Vec3 b)
         {
@@ -175,23 +189,97 @@ namespace CustomMath
         }
         public static Vec3 Max(Vec3 a, Vec3 b)
         {
-            throw new NotImplementedException();
+            Vec3 vecMax;
+
+            if (a.x > b.x)
+            {
+                vecMax.x = a.x;
+            }
+            else
+            {
+                vecMax.x = b.x;
+            }
+
+            if (a.y > b.y)
+            {
+                vecMax.y = a.y;
+            }
+            else
+            {
+                vecMax.y = b.y;
+            }
+
+            if (a.z > b.z)
+            {
+                vecMax.z = a.z;
+            }
+            else
+            {
+                vecMax.z = b.z;
+            }
+
+            return vecMax;
         }
         public static Vec3 Min(Vec3 a, Vec3 b)
         {
-            throw new NotImplementedException();
+            Vec3 vecMin;
+
+            if (a.x < b.x)
+            {
+                vecMin.x = a.x;
+            }
+            else
+            {
+                vecMin.x = b.x;
+            }
+
+            if (a.y < b.y)
+            {
+                vecMin.y = a.y;
+            }
+            else
+            {
+                vecMin.y = b.y;
+            }
+
+            if (a.z < b.z)
+            {
+                vecMin.z = a.z;
+            }
+            else
+            {
+                vecMin.z = b.z;
+            }
+
+            return vecMin;
         }
         public static float SqrMagnitude(Vec3 vector)
         {
-            throw new NotImplementedException();
+            return (Mathf.Pow(vector.x, 2) + Mathf.Pow(vector.y, 2) + Mathf.Pow(vector.z, 2));
         }
         public static Vec3 Project(Vec3 vector, Vec3 onNormal) 
         {
+            /* ( a . b )
+                -------- * a
+               ( a . a )
+            */
+
             throw new NotImplementedException();
         }
         public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal) 
         {
-            throw new NotImplementedException();
+            /*
+               ( U . V )
+               (-------) * V
+               ( |V|˄2 )
+             */
+            float num1 = Dot(inDirection, inNormal);
+            float num2 = Mathf.Pow(Magnitude(inNormal), 2);
+            float num3 = num1 / num2;
+
+            inNormal *= num3;
+            
+            return new Vec3(inNormal);
         }
         public void Set(float newX, float newY, float newZ)
         {
