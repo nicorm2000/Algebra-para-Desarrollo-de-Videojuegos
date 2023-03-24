@@ -299,6 +299,11 @@ namespace CustomMath
         {
             Set(normalized.x, normalized.y, normalized.z);
         }
+        //Added new Normalize static function
+        public static Vec3 Normalize(Vec3 vector)
+        {
+            return new Vec3(vector.x / Magnitude(vector), vector.y / Magnitude(vector), vector.z / Magnitude(vector));
+        }
         #endregion
 
         #region Internals
