@@ -181,11 +181,38 @@ namespace CustomMath
         }
         public static Vec3 Lerp(Vec3 a, Vec3 b, float t)
         {
-            throw new NotImplementedException();
+            //Linearly interpolates between two points.
+            //Interpolates between the points a and b by the interpolant t.The parameter t is clamped to the range[0, 1]. This is most commonly used to find a point some fraction of the way along a line between two endpoints(e.g.to move an object gradually between those points).
+            //a + (b - a) * t
+
+            float x = a.x;
+            float y = a.y;
+            float z = a.z;
+
+            if (t < 1.0f)
+            {
+                x = a.x + (b.x - a.x) * t;
+                y = a.y + (b.y - a.y) * t;
+                z = a.z + (b.z - a.z) * t;
+            }
+
+            return new Vec3(x, y, z);
         }
         public static Vec3 LerpUnclamped(Vec3 a, Vec3 b, float t)
         {
-            throw new NotImplementedException();
+            //Linearly interpolates between two vectors.
+            //Interpolates between the vectors a and b by the interpolant t.This is most commonly used to find a point some fraction of the way along a line between two endpoints(e.g.to move an object gradually between those points).
+            //When t = 0 returns a. When t = 1 returns b. When t = 0.5 returns the point midway between a and b.
+
+            float x = a.x;
+            float y = a.y;
+            float z = a.z;
+
+            x = a.x + (b.x - a.x) * t;
+            y = a.y + (b.y - a.y) * t;
+            z = a.z + (b.z - a.z) * t;
+
+            return new Vec3(x, y, z);
         }
         public static Vec3 Max(Vec3 a, Vec3 b)
         {
