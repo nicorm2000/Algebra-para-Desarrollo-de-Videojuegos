@@ -263,8 +263,10 @@ namespace CustomMath
                 -------- * a
                ( a . a )
             */
-
-            throw new NotImplementedException();
+            float division = Dot(vector, onNormal) / Dot(onNormal, onNormal);
+            Vec3 vecProjection = division * onNormal;
+            
+            return vecProjection;
         }
         public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal) 
         {
