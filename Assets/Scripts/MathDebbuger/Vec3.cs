@@ -286,9 +286,9 @@ namespace CustomMath
         }
         public static Vec3 Project(Vec3 vector, Vec3 onNormal) 
         {
-            /* ( a . b )
-                -------- * a
-               ( a . a )
+            /*  ( vector . onNormal )
+                --------------------- * onNormal
+               ( onNormal . onNormal )
             */
             float division = Dot(vector, onNormal) / Dot(onNormal, onNormal);
             Vec3 vecProjection = division * onNormal;
@@ -298,17 +298,13 @@ namespace CustomMath
         public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal) 
         {
             /*
-               ( U . V )
-               (-------) * V
-               ( |V|˄2 )
-             */
-            float num1 = Dot(inDirection, inNormal);
-            float num2 = Mathf.Pow(Magnitude(inNormal), 2);
-            float num3 = num1 / num2;
-
-            inNormal *= num3;
+                -2 * Dot(inDirection, inNormal) * inNormal + inDirection
+            */
+            Vec3 vec1 = inNormal * -2;
+            Vec3 vec2 = vec1 * Dot(inDirection, inNormal);
+            Vec3 vec3 = vec2 + inDirection;
             
-            return new Vec3(inNormal);
+            return vec3;
         }
         public void Set(float newX, float newY, float newZ)
         {
