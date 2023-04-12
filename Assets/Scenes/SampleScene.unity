@@ -247,9 +247,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exercise: 0
-  defaultVectorColor: {r: 1, g: 0, b: 0, a: 1}
-  a: {x: 0, y: 0, z: 0}
-  b: {x: 0, y: 0, z: 0}
+  VectorColor: {r: 1, g: 0, b: 0, a: 1}
+  a: {x: 3, y: 2, z: 1}
+  b: {x: 1, y: 2, z: 3}
 --- !u!4 &405205395
 Transform:
   m_ObjectHideFlags: 0
@@ -296,8 +296,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ejercicio: 0
   vectorColor: {r: 1, g: 0, b: 0, a: 1}
-  a: {x: 0, y: 0, z: 0}
-  b: {x: 0, y: 0, z: 0}
+  a: {x: 3, y: 2, z: 1}
+  b: {x: 1, y: 2, z: 3}
 --- !u!4 &481107008
 Transform:
   m_ObjectHideFlags: 0
