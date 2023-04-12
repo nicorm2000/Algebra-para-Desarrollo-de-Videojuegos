@@ -21,9 +21,9 @@ public class MyDllExercises : MonoBehaviour
     }
 
     public Exercise exercise = Exercise.Uno;
+    public Color VectorColor = Color.red;
     public Vector3 a;
     public Vector3 b;
-    public Color defaultVectorColor = Color.red;
 
     private Vec3 vectorA;
     private Vec3 vectorB;
@@ -34,7 +34,11 @@ public class MyDllExercises : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Vector3Debugger.EnableEditorView();
+
+        Vector3Debugger.AddVector(vectorA, Color.magenta, "A");
+        Vector3Debugger.AddVector(vectorB, Color.yellow, "B");
+        Vector3Debugger.AddVector(vectorC, VectorColor, "C");
     }
 
     // Update is called once per frame
