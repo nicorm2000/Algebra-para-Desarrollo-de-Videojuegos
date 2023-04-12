@@ -47,8 +47,33 @@ public class MyDllExercises : MonoBehaviour
 
         Vector3Debugger.UpdatePosition("A", TransformVec3ToVector3(vectorA));
         Vector3Debugger.UpdatePosition("B", TransformVec3ToVector3(vectorB));
+        Vector3Debugger.UpdatePosition("C", TransformVec3ToVector3(vectorC));
 
-
+        switch (exercise)
+        {
+            case Exercise.Uno:
+                break;
+            case Exercise.Dos:
+                break;
+            case Exercise.Tres:
+                break;
+            case Exercise.Cuatro:
+                break;
+            case Exercise.Cinco:
+                break;
+            case Exercise.Seis:
+                break;
+            case Exercise.Siete:
+                break;
+            case Exercise.Ocho:
+                break;
+            case Exercise.Nueve:
+                break;
+            case Exercise.Diez:
+                break;
+            default:
+                break;
+        }
     }
 
     Vector3 TransformVec3ToVector3(Vec3 vector)
