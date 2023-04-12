@@ -52,26 +52,71 @@ public class MyDllExercises : MonoBehaviour
         switch (exercise)
         {
             case Exercise.Uno:
+
+                vectorC = vectorA + vectorB;
+                
                 break;
+
             case Exercise.Dos:
+
+                vectorC = vectorB - vectorA;
+
                 break;
+
             case Exercise.Tres:
+
+                vectorC = new Vec3(vectorA.x * vectorB.x, vectorA.y * vectorB.y, vectorA.z * vectorB.z);
+
                 break;
+
             case Exercise.Cuatro:
+
+                vectorC = Vec3.Cross(vectorB, vectorA);
+
                 break;
+
             case Exercise.Cinco:
+
+                time = time > 1 ? 0 : time + Time.deltaTime;
+
+                vectorC = Vec3.Lerp(vectorA, vectorB, time);
+
                 break;
+
             case Exercise.Seis:
+
+                vectorC = Vec3.Max(vectorA, vectorB);
+
                 break;
+
             case Exercise.Siete:
+
+                vectorC = Vec3.Project(vectorA, vectorB);
+
                 break;
+
             case Exercise.Ocho:
+
+                vectorC = Vec3.Normalize(vectorA + vectorB) * Vec3.Distance(vectorA, vectorB);
+
                 break;
+
             case Exercise.Nueve:
+
+                vectorC = Vec3.Reflect(vectorA, Vec3.Normalize(vectorB));
+
                 break;
+
             case Exercise.Diez:
+
+                time = time > timeLimit ? 0 : time + Time.deltaTime;
+
+                vectorC = Vec3.LerpUnclamped(vectorB, vectorA, time);
+
                 break;
+
             default:
+
                 break;
         }
     }
