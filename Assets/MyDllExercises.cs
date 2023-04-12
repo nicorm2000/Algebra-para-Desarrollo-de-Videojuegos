@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using CustomMath;
 using MathDebbuger;
@@ -44,6 +42,17 @@ public class MyDllExercises : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        vectorA = new Vec3(a);
+        vectorB = new Vec3(b);
+
+        Vector3Debugger.UpdatePosition("A", TransformVec3ToVector3(vectorA));
+        Vector3Debugger.UpdatePosition("B", TransformVec3ToVector3(vectorB));
+
+
+    }
+
+    Vector3 TransformVec3ToVector3(Vec3 vector)
+    {
+        return new Vector3(vector.x, vector.y, vector.z);
     }
 }
