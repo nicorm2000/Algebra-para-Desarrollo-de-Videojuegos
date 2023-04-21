@@ -13,63 +13,43 @@ namespace CustomMath
         private Vec3 _normal; //The normal to the plane
         private float _distance; //The distance to the plane
 
-        //
-        // Summary:
-        //     Creates a plane.
-        //
-        // Parameters:
-        //   inNormal:
-        //
-        //   inPoint:
-
-        //public PlaneCustom(Vector3 inNormal, Vector3 inPoint)
-        //{
-        //
-        //}
-        ////
-        // Summary:
-        //     Creates a plane.
-        //
-        // Parameters:
-        //   inNormal:
-        //
-        //   d:
-
-        //public PlaneCustom(Vector3 inNormal, float d)
-        //{
-        //
-        //}
-        ////
-        // Summary:
-        //     Creates a plane.
-        //
-        // Parameters:
-        //   a:
-        //
-        //   b:
-        //
-        //   c:
-
-        //public PlaneCustom(Vector3 a, Vector3 b, Vector3 c)
-        //{
-        //
-        //}
-        //
-        // Summary:
-        //     Normal vector of the plane.
+        //Normal vector of the plane.
         public Vector3 normal 
         { 
             get { return _normal; } 
             set { _normal = value; } 
         }
-        //
-        // Summary:
-        //     The distance measured from the Plane to the origin, along the Plane's normal.
-        public float distance { get; set; }
-        //
-        // Summary:
-        //     Returns a copy of the plane that faces in the opposite direction.
-        public Plane flipped { get; }
+
+        //The distance measured from the Plane to the origin, along the Plane's normal.
+        public float distance 
+        {
+            get { return _distance; }
+            set { _distance = value; } 
+        }
+        
+        //Returns a copy of the plane that faces in the opposite direction.\
+        public PlaneCustom flipped 
+        {
+            get { return new PlaneCustom(-_normal, -_distance); }
+        }
+
+        public PlaneCustom(Vec3 normal, Vec3 point)
+        {
+            _normal = Vec3.Normalize(normal);
+            _distance = Vec3.Dot(normal, point);
+        }
+        
+        public PlaneCustom(Vec3 normal, float distance)
+        {
+            _normal = Vec3.Normalize(normal);
+            _distance = distance;
+        }
+
+        public PlaneCustom(Vec3 a, Vec3 b, Vec3 c)
+        {
+            _normal = Vec3.Normalize(Vec3.Cross(b - a, c - a));
+            _distance = -Vec3.Dot(_normal, a);
+        }
 
         //
         // Summary:
