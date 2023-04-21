@@ -51,7 +51,8 @@ namespace CustomMath
             _distance = -Vec3.Dot(_normal, a);
         }
 
-        // Returns a copy of the given plane that is moved in space by the given translation.
+        // Summary:
+        //     Returns a copy of the given plane that is moved in space by the given translation.
         // Parameters:
         //   plane:
         //     The plane to move in space.
@@ -67,7 +68,7 @@ namespace CustomMath
 
             return planeCopy;
         }
-        //
+
         // Summary:
         //     Moves the plane in space by the translation vector.
         //
@@ -112,7 +113,7 @@ namespace CustomMath
         {
             return Vec3.Dot(_normal, point) + _distance;
         }
-        //
+
         // Summary:
         //     Is a point on the positive side of the plane?
         //
@@ -122,11 +123,7 @@ namespace CustomMath
         {
             return Vec3.Dot(_normal, point) + _distance > 0.0f;
         }
-        public bool Raycast(Ray ray, out float enter)
-        {
-            throw new NotImplementedException();
-        }
-        //
+
         // Summary:
         //     Are two points on the same side of the plane?
         //
@@ -136,9 +133,12 @@ namespace CustomMath
         //   inPt1:
         public bool SameSide(Vec3 inPt0, Vec3 inPt1)
         {
-            throw new NotImplementedException();
+            float d0 = GetDistanceToPoint(inPt0);
+            float d1 = GetDistanceToPoint(inPt1);
+
+            return (d0 > 0.0f && d1 > 0.0f) || (d0 <= 0.0f && d1 <= 0.0f);
         }
-        //
+
         // Summary:
         //     Sets a plane using three points that lie within it. The points go around clockwise
         //     as you look down on the top surface of the plane.
@@ -154,9 +154,10 @@ namespace CustomMath
         //     Third point in clockwise order.
         public void Set3Points(Vec3 a, Vec3 b, Vec3 c)
         {
-            throw new NotImplementedException();
+            _normal = Vec3.Normalize(Vec3.Cross(b - a, c - a));
+            _distance = Vec3.Dot(_normal, a);
         }
-        //
+
         // Summary:
         //     Sets a plane using a point that lies within it along with a normal to orient
         //     it.
@@ -169,7 +170,8 @@ namespace CustomMath
         //     A point that lies on the plane.
         public void SetNormalAndPosition(Vec3 inNormal, Vec3 inPoint)
         {
-            throw new NotImplementedException();
+            _normal = Vec3.Normalize(inNormal);
+            _distance = -Vec3.Dot(_normal, inPoint);
         }
     }
 }
