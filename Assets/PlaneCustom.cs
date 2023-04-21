@@ -27,7 +27,7 @@ namespace CustomMath
             set { _distance = value; } 
         }
         
-        //Returns a copy of the plane that faces in the opposite direction.\
+        //Returns a copy of the plane that faces in the opposite direction.
         public PlaneCustom flipped 
         {
             get { return new PlaneCustom(-_normal, -_distance); }
@@ -59,7 +59,7 @@ namespace CustomMath
         //     The offset in space to move the plane with.
         // Returns:
         //     The translated plane.
-        public static PlaneCustom Translate(PlaneCustom plane, Vector3 translation)
+        public static PlaneCustom Translate(PlaneCustom plane, Vec3 translation)
         {
             PlaneCustom planeCopy = new PlaneCustom(plane._normal, plane._distance);
 
@@ -74,11 +74,11 @@ namespace CustomMath
         // Parameters:
         //   translation:
         //     The offset in space to move the plane with.
-        public void Translate(Vector3 translation)
+        public void Translate(Vec3 translation)
         {
             _distance += Vec3.Dot(_normal, translation);
         }
-        //
+
         // Summary:
         //     For a given point returns the closest point on the plane.
         //
@@ -88,16 +88,19 @@ namespace CustomMath
         //
         // Returns:
         //     A point on the plane that is closest to point.
-        public Vector3 ClosestPointOnPlane(Vector3 point)
+        public Vector3 ClosestPointOnPlane(Vec3 point)
         {
-            throw new NotImplementedException();
+            var dist = Vec3.Dot(_normal, point) + _distance;
+
+            return (point - _normal * dist);
         }
-        //
+
         // Summary:
         //     Makes the plane face in the opposite direction.
         public void Flip()
         {
-            throw new NotImplementedException();
+            _normal = -_normal;
+            _distance = -_distance;
         }
         //
         // Summary:
@@ -105,7 +108,7 @@ namespace CustomMath
         //
         // Parameters:
         //   point:
-        public float GetDistanceToPoint(Vector3 point)
+        public float GetDistanceToPoint(Vec3 point)
         {
             throw new NotImplementedException();
         }
@@ -115,7 +118,7 @@ namespace CustomMath
         //
         // Parameters:
         //   point:
-        public bool GetSide(Vector3 point)
+        public bool GetSide(Vec3 point)
         {
             throw new NotImplementedException();
         }
@@ -131,7 +134,7 @@ namespace CustomMath
         //   inPt0:
         //
         //   inPt1:
-        public bool SameSide(Vector3 inPt0, Vector3 inPt1)
+        public bool SameSide(Vec3 inPt0, Vec3 inPt1)
         {
             throw new NotImplementedException();
         }
@@ -149,7 +152,7 @@ namespace CustomMath
         //
         //   c:
         //     Third point in clockwise order.
-        public void Set3Points(Vector3 a, Vector3 b, Vector3 c)
+        public void Set3Points(Vec3 a, Vec3 b, Vec3 c)
         {
             throw new NotImplementedException();
         }
@@ -164,7 +167,7 @@ namespace CustomMath
         //
         //   inPoint:
         //     A point that lies on the plane.
-        public void SetNormalAndPosition(Vector3 inNormal, Vector3 inPoint)
+        public void SetNormalAndPosition(Vec3 inNormal, Vec3 inPoint)
         {
             throw new NotImplementedException();
         }
