@@ -7,6 +7,12 @@ namespace CustomMath
 {
     public struct PlaneCustom
     {
+        //Plane function -> AX + BY + CZ + D = 0
+        //D = distance
+
+        private Vec3 _normal; //The normal to the plane
+        private float _distance; //The distance to the plane
+
         //
         // Summary:
         //     Creates a plane.
@@ -51,7 +57,11 @@ namespace CustomMath
         //
         // Summary:
         //     Normal vector of the plane.
-        public Vector3 normal { get; set; }
+        public Vector3 normal 
+        { 
+            get { return _normal; } 
+            set { _normal = value; } 
+        }
         //
         // Summary:
         //     The distance measured from the Plane to the origin, along the Plane's normal.
@@ -165,10 +175,6 @@ namespace CustomMath
         //   inPoint:
         //     A point that lies on the plane.
         public void SetNormalAndPosition(Vector3 inNormal, Vector3 inPoint)
-        {
-            throw new NotImplementedException();
-        }
-        public override string ToString()
         {
             throw new NotImplementedException();
         }
