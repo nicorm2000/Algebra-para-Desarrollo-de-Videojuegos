@@ -51,20 +51,30 @@ namespace CustomMath
             _distance = -Vec3.Dot(_normal, a);
         }
 
-        //
-        // Summary:
-        //     Returns a copy of the given plane that is moved in space by the given translation.
-        //
+        // Returns a copy of the given plane that is moved in space by the given translation.
         // Parameters:
         //   plane:
         //     The plane to move in space.
-        //
         //   translation:
         //     The offset in space to move the plane with.
-        //
         // Returns:
         //     The translated plane.
-        public static Plane Translate(Plane plane, Vector3 translation)
+        public static PlaneCustom Translate(PlaneCustom plane, Vector3 translation)
+        {
+            PlaneCustom planeCopy = new PlaneCustom(plane._normal, plane._distance);
+
+            planeCopy.Translate(translation);
+
+            return plane;
+        }
+        //
+        // Summary:
+        //     Moves the plane in space by the translation vector.
+        //
+        // Parameters:
+        //   translation:
+        //     The offset in space to move the plane with.
+        public void Translate(Vector3 translation)
         {
             throw new NotImplementedException();
         }
@@ -155,10 +165,6 @@ namespace CustomMath
         //   inPoint:
         //     A point that lies on the plane.
         public void SetNormalAndPosition(Vector3 inNormal, Vector3 inPoint)
-        {
-            throw new NotImplementedException();
-        }
-        public void Translate(Vector3 translation)
         {
             throw new NotImplementedException();
         }
