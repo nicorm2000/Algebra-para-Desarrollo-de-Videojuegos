@@ -102,7 +102,7 @@ namespace CustomMath
             _normal = -_normal;
             _distance = -_distance;
         }
-        //
+
         // Summary:
         //     Returns a signed distance from plane to point.
         //
@@ -110,7 +110,7 @@ namespace CustomMath
         //   point:
         public float GetDistanceToPoint(Vec3 point)
         {
-            throw new NotImplementedException();
+            return Vec3.Dot(_normal, point) + _distance;
         }
         //
         // Summary:
@@ -120,7 +120,7 @@ namespace CustomMath
         //   point:
         public bool GetSide(Vec3 point)
         {
-            throw new NotImplementedException();
+            return Vec3.Dot(_normal, point) + _distance > 0.0f;
         }
         public bool Raycast(Ray ray, out float enter)
         {
