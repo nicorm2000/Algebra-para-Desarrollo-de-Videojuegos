@@ -65,7 +65,7 @@ namespace CustomMath
 
             planeCopy.Translate(translation);
 
-            return plane;
+            return planeCopy;
         }
         //
         // Summary:
@@ -76,7 +76,7 @@ namespace CustomMath
         //     The offset in space to move the plane with.
         public void Translate(Vector3 translation)
         {
-            throw new NotImplementedException();
+            _distance += Vec3.Dot(_normal, translation);
         }
         //
         // Summary:
