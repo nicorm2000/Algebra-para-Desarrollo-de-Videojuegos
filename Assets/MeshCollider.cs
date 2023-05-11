@@ -26,6 +26,26 @@ public class MeshCollider : MonoBehaviour
 
     private void Start()
     {
-        
+        Mesh mesh = GetComponent<MeshFilter>().mesh;
+
+        planes = new List<PlaneCustom>();
+        pointsInsideMesh = new List<Vec3>();
+        previousVertex = new List<Vec3>();
+        pointsToCheck = new List<Vec3>();
+
+        for (int i = 0; i < mesh.GetIndices(0).Length; i+= 3)
+        {
+            Vec3 auxA = new Vec3(mesh.vertices[mesh.GetIndices(0)[i]]);
+            Vec3 auxB = new Vec3(mesh.vertices[mesh.GetIndices(0)[i + 1]]);
+            Vec3 auxC = new Vec3(mesh.vertices[mesh.GetIndices(0)[i + 2]]);
+
+            planes.Add(new PlaneCustom(auxA, auxB, auxC));
+        }
+        for (int i = 0; i < planes.Count; i++)
+        {
+            Vec3 aux = new Vec3(mesh.normals[i]);
+
+            planes[i].SetNormalAndPosition(aux, planes[i].normal * planes[i].distance);
+        }
     }
 }
