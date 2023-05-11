@@ -1,14 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CustomMath;
+using System.Linq;
+using System;
 
 public class MeshCollider : MonoBehaviour
 {
-    private List<PlaneCustom> planes;
+    public List<PlaneCustom> planes;
     public bool isMeshActive;
     public List<Vec3> pointsInsideMesh;
-    public List<Vec3> pointsToCheck;
+    private List<Vec3> pointsToCheck;
     public Vec3 nearestPoint;
 
     // Summary:
@@ -90,18 +91,16 @@ public class MeshCollider : MonoBehaviour
         NearestPoint();
 
         AddPointsToCheck();
-
+        Debug.Log("Points: " + pointsToCheck.Count);
         AddPointsInsideOfMesh();
 
-        Debug.Log("Colliding Points: " + pointsInsideMesh.Count + ", " + gameObject);
+        Debug.Log("Colliding Points: " + pointsInsideMesh.Count);
     }
 
     // Summary:
     // Gets the nearest point by checking x, y and z points and then assigns them to the nearestPoint Vec3
     private void NearestPoint()
     {
-        var nearPoint = nearestPoint;
-
         var x = ValueNearestPosition(transform.position.x);
         var y = ValueNearestPosition(transform.position.y);
         var z = ValueNearestPosition(transform.position.z);
@@ -144,14 +143,15 @@ public class MeshCollider : MonoBehaviour
     private void AddPointsToCheck()
     {
         pointsToCheck.Clear();
-        var gridSize = Grid.Size - 1;
 
-        int maxPointX = MaxGridSize(nearestPoint.x, transform.localScale.x, 1, 1);
-        int maxPointY = MaxGridSize(nearestPoint.y, transform.localScale.y, 1, 1);
-        int maxPointZ = MaxGridSize(nearestPoint.z, transform.localScale.z, 1, 1);
-        int minPointX = MaxGridSize(nearestPoint.x, transform.localScale.x, 1, -1);
-        int minPointY = MaxGridSize(nearestPoint.y, transform.localScale.y, 1, -1);
-        int minPointZ = MaxGridSize(nearestPoint.z, transform.localScale.z, 1, -1);
+        int maxPointX = MaxGridSize(nearestPoint.x, transform.localScale.x, 3, 1);
+        int maxPointY = MaxGridSize(nearestPoint.y, transform.localScale.y, 3, 1);
+        int maxPointZ = MaxGridSize(nearestPoint.z, transform.localScale.z, 3, 1);
+        int minPointX = MaxGridSize(nearestPoint.x, transform.localScale.x, 3, -1);
+        int minPointY = MaxGridSize(nearestPoint.y, transform.localScale.y, 3, -1);
+        int minPointZ = MaxGridSize(nearestPoint.z, transform.localScale.z, 3, -1);
+
+        var gridSize = Grid.Size - 1;
 
         maxPointX = Mathf.Clamp(maxPointX, 0, gridSize);
         maxPointY = Mathf.Clamp(maxPointY, 0, gridSize);
@@ -181,8 +181,8 @@ public class MeshCollider : MonoBehaviour
     {
         int x = (int)nearestPoint;
         
-        int y = (numberOfPoints + (int)scale) * signOfTheNumber;
-
+        int y = (numberOfPoints + (int)scale - 1) * signOfTheNumber;
+        
         return x + y;
     }
 
@@ -215,10 +215,11 @@ public class MeshCollider : MonoBehaviour
                     }
                 }
             }
-
+            Debug.Log("Counter is: " + counter);
             if (counter % 2 == 1)
             {
                 pointsInsideMesh.Add(point);
+                Debug.Log("apa");
             }
         }
     }
@@ -274,11 +275,12 @@ public class MeshCollider : MonoBehaviour
     private bool IsValidPlane(PlaneCustom plane, Vec3 point)
     {
         float x1 = plane.pointA.x;
-        float x2 = plane.pointA.y;
-        float x3 = plane.pointA.z;
-        float y1 = plane.pointA.x;
-        float y2 = plane.pointA.y;
-        float y3 = plane.pointA.z;
+        float x2 = plane.pointB.x;
+        float x3 = plane.pointC.x;
+
+        float y1 = plane.pointA.y;
+        float y2 = plane.pointB.y;
+        float y3 = plane.pointC.y;
 
         float completeArea = Mathf.Abs((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1));
 
@@ -286,13 +288,68 @@ public class MeshCollider : MonoBehaviour
         float secondArea = Mathf.Abs((x2 - point.x) * (y3 - point.y) - (x3 - point.x) * (y2 - point.y));
         float thirdArea = Mathf.Abs((x3 - point.x) * (y1 - point.y) - (x1 - point.x) * (y3 - point.y));
 
-        float sumOfAreas = firstArea + secondArea + thirdArea;
-
-        return sumOfAreas == completeArea;
+        return Mathf.Abs(firstArea + secondArea + thirdArea - completeArea) < Vec3.epsilon;
     }
 
-    private void OnDestroy()
+    // Summary:
+    // This function asks for a Vec3 point
+    // It will compare if the given point is on the other mesh as well
+    // The function will return true if so
+    // It uses the Any() function which checks if any element in the collection satisfies a specified condition, such as pointsInsideMesh
+    // The lambda expression will compare each element in pointsInsideMesh with point to see which one is equal
+    public bool CheckPointsAgainstAnotherMesh(Vec3 point)
     {
-        isMeshActive = false;
+        return pointsInsideMesh.Any(pointsInsideMesh => pointsInsideMesh == point);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (isMeshActive)
+        {
+            var color = Color.blue;
+
+            foreach (var plane in planes)
+            {
+                DrawPlane(plane.normal * plane.distance, plane.normal, color);
+            }
+
+            foreach (var point in pointsInsideMesh)
+            {
+                Gizmos.DrawRay(point, Vec3.Forward * 10f);
+            }
+        }
+    }
+
+    private void DrawPlane(Vec3 pos, Vec3 normal, Color color)
+    {
+        Vec3 vector;
+
+        if (normal.normalized != Vec3.Forward)
+        {
+            vector = Vec3.Cross(normal, Vec3.Forward).normalized * normal.magnitude;
+        }
+        else
+        {
+            vector = Vec3.Cross(normal, Vec3.Up).normalized * normal.magnitude;
+        }
+
+        var corner = pos + vector;
+        var corner2 = pos - vector;
+
+        var rot = Quaternion.AngleAxis(90.0f, normal);
+
+        vector = rot * vector;
+
+        var corner1 = pos + vector;
+        var corner3 = pos - vector;
+
+        Debug.DrawLine(corner, corner2, color);
+        Debug.DrawLine(corner1, corner3, color);
+        Debug.DrawLine(corner, corner1, color);
+        Debug.DrawLine(corner1, corner2, color);
+        Debug.DrawLine(corner2, corner3, color);
+        Debug.DrawLine(corner3, corner, color);
+
+        Debug.DrawRay(pos, normal, Color.cyan);
     }
 }

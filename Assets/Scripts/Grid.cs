@@ -4,16 +4,13 @@ using CustomMath;
 public class Grid : MonoBehaviour
 {
     [SerializeField] public bool isGridActive = false;
-    [SerializeField] public float gridDelta = 0.1f;
 
     [SerializeField] public static int Size = 10;
-    [SerializeField] public static float Delta;
+    [SerializeField] public static float Delta = 1f;
     [SerializeField] public static Vec3[,,] grid = new Vec3[Size, Size, Size];
 
     private void Start()
     {
-        Delta = gridDelta;
-
         isGridActive = true;
 
         for (int x = 0; x < grid.GetLength(0); x++)
@@ -22,7 +19,7 @@ public class Grid : MonoBehaviour
             {
                 for (int z = 0; z < grid.GetLength(2); z++)
                 {
-                    grid[x, y, z] = new Vec3(x, y, z) * gridDelta;
+                    grid[x, y, z] = new Vec3(x, y, z) * Delta;
                 }
             }
         }
@@ -41,7 +38,7 @@ public class Grid : MonoBehaviour
             {
                 for (int z = 0; z < grid.GetLength(2); z++)
                 {
-                    Gizmos.DrawSphere(new Vec3(x, y, z) * gridDelta, 0.1f);
+                    Gizmos.DrawSphere(new Vec3(x, y, z) * Delta, 0.1f);
                 }
             }
         }
