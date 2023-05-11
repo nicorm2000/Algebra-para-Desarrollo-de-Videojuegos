@@ -11,6 +11,9 @@ public class MeshCollider : MonoBehaviour
     public List<Vec3> pointsToCheck;
     public Vec3 nearestPoint;
 
+    // Summary:
+    // Create a Ray struct that will be used later on to check if the point is in the plane
+    // Add an origin point, and a dest point as well as a Ray constructor
     struct Ray
     {
         public Vec3 origin;
@@ -23,6 +26,11 @@ public class MeshCollider : MonoBehaviour
         }
     }
 
+    // Summary:
+    // Starts by creating every plane that will be used in the code
+    // Checks for 3 vertices so that the plane can be created using the 3 point plane constructor and adds it to the list
+    // Sets the plane passed by parameter based on a point inside the plane and the normal to orient it
+    // Aux is the normal(that is obtained by calculatingg the normals of the mesh), and the normal multiplied by the distance gives me the point
     private void Start()
     {
         Mesh mesh = GetComponent<MeshFilter>().mesh;
@@ -39,6 +47,7 @@ public class MeshCollider : MonoBehaviour
 
             planes.Add(new PlaneCustom(auxA, auxB, auxC));
         }
+
         for (int i = 0; i < planes.Count; i++)
         {
             Vec3 aux = new Vec3(mesh.normals[i]);
@@ -77,6 +86,8 @@ public class MeshCollider : MonoBehaviour
         }
 
         NearestPoint();
+
+        AddPointsToCheck();
 
         Debug.Log("Colliding Points: " + pointsInsideMesh.Count + ", " + gameObject);
     }
@@ -121,7 +132,55 @@ public class MeshCollider : MonoBehaviour
         return (int)value;
     }
 
-    
+    // Summary:
+    // Empties the pointsToCheck Vec3 list, and sets the grid size to the grid size minus 1
+    // Then an x, y and z max and x, y and z min point are calculated with the MaxGridSize function
+    // After this 6 points are checked with the Clamp function so they don't exceed neither the gridSize or go lower than 0
+    // Finally there is a loop that goes from the min value up to the max of each x, y and z point and adds thhe point to the pointsToCheck list
+    public void AddPointsToCheck()
+    {
+        pointsToCheck.Clear();
+        var gridSize = Grid.Size - 1;
+
+        int maxPointX = MaxGridSize(nearestPoint.x, transform.localScale.x, 1, 1);
+        int maxPointY = MaxGridSize(nearestPoint.y, transform.localScale.y, 1, 1);
+        int maxPointZ = MaxGridSize(nearestPoint.z, transform.localScale.z, 1, 1);
+        int minPointX = MaxGridSize(nearestPoint.x, transform.localScale.x, 1, -1);
+        int minPointY = MaxGridSize(nearestPoint.y, transform.localScale.y, 1, -1);
+        int minPointZ = MaxGridSize(nearestPoint.z, transform.localScale.z, 1, -1);
+
+        maxPointX = Mathf.Clamp(maxPointX, 0, gridSize);
+        maxPointY = Mathf.Clamp(maxPointY, 0, gridSize);
+        maxPointZ = Mathf.Clamp(maxPointZ, 0, gridSize);
+        minPointX = Mathf.Clamp(minPointX, 0, gridSize);
+        minPointY = Mathf.Clamp(minPointY, 0, gridSize);
+        minPointZ = Mathf.Clamp(minPointZ, 0, gridSize);
+
+        for (int x = minPointX; x < maxPointX; x++)
+        {
+            for (int y = minPointY; y < maxPointY; y++)
+            {
+                for (int z = minPointZ; z < maxPointZ; z++)
+                {
+                    pointsToCheck.Add(Grid.grid[x, y, z]);
+                }
+            }
+        }
+    }
+
+    // Summary:
+    // This function needs the nearestPoint, the scale so this can be worked with different scales, the number of points it will check and a value to check positive or negative values
+    // Once it has all of them, it makes the nearesPoint as an integer
+    // And gets the sum between numberOfPoints that will be checked and the multiplication between scale and the sign which will dtermine if it is positive or negative
+    // As a return value both ints get added up
+    private int MaxGridSize(float nearestPoint, float scale, int numberOfPoints, int signOfTheNumber)
+    {
+        int x = (int)nearestPoint;
+        
+        int y = (numberOfPoints + (int)scale) * signOfTheNumber;
+
+        return x + y;
+    }
 
     private void OnDestroy()
     {
