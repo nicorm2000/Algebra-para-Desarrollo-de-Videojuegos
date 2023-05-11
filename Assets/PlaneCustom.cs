@@ -10,11 +10,14 @@ namespace CustomMath
         //Plane function -> AX + BY + CZ + D = 0
         //D = distance
 
-        private Vec3 _normal; //The normal to the plane
+        public Vec3 _normal; //The normal to the plane
+        public Vec3 pointA;
+        public Vec3 pointB;
+        public Vec3 pointC;
         private float _distance; //The distance to the plane
 
         //Normal vector of the plane.
-        public Vector3 normal 
+        public Vec3 normal 
         { 
             get { return _normal; } 
             set { _normal = value; } 
@@ -37,18 +40,30 @@ namespace CustomMath
         {
             _normal = Vec3.Normalize(normal);
             _distance = Vec3.Dot(normal, point);
+
+            pointA = point;
+            pointB = point;
+            pointC = point;
         }
         
         public PlaneCustom(Vec3 normal, float distance)
         {
             _normal = Vec3.Normalize(normal);
             _distance = distance;
+
+            pointA = normal;
+            pointB = normal;
+            pointC = normal;
         }
 
         public PlaneCustom(Vec3 a, Vec3 b, Vec3 c)
         {
             _normal = Vec3.Normalize(Vec3.Cross(b - a, c - a));
             _distance = -Vec3.Dot(_normal, a);
+
+            pointA = a;
+            pointB = b;
+            pointC = c;
         }
 
         // Summary:
