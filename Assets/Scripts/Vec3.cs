@@ -328,7 +328,8 @@ namespace CustomMath
         // Project Vector formula:
         // ( vector . onNormal )
         // --------------------- * onNormal
-        // ( onNormal . onNormal )
+        // ( onNormal . onNormal ) // This basically is the same as the square magnitude of vector b
+        // This can be used to calculate shadows, reflections, parallel or perpendicular components of vectors
         public static Vec3 Project(Vec3 vector, Vec3 onNormal) 
         {
             float division = Dot(vector, onNormal) / Dot(onNormal, onNormal);
