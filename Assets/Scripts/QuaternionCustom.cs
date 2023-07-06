@@ -279,7 +279,7 @@ namespace CustomMath
                 axis = new Vec3(normalizedQuaternion.x, normalizedQuaternion.y, normalizedQuaternion.z) / sinAngle;
             }
         }
-
+        
         //Smoothly interpolate between two quaternions based on a specified fraction or interpolation factor.
         public static QuaternionCustom Lerp(QuaternionCustom a, QuaternionCustom b, float t)
         {
@@ -328,7 +328,7 @@ namespace CustomMath
             return SlerpUnclamped(a, b, t);
         }
 
-        // This function performs unclamped spherical linear interpolation (Slerp) between two quaternions.
+        //This function performs unclamped spherical linear interpolation (Slerp) between two quaternions.
         //Calculate the dot product of a and b, and store it in cosAngle.
         //If cosAngle is less than 0, negate b to ensure the interpolation takes the shortest path.
         //If cosAngle is less than 0.95f:
@@ -422,6 +422,7 @@ namespace CustomMath
         public void SetLookRotation(Vec3 view)
         {
             Vec3 up = Vec3.Up;
+
             SetLookRotation(view, up);
         }
         //This override lets you specify a custom up vector (up) when setting the look rotation.
@@ -442,8 +443,8 @@ namespace CustomMath
         //https://d3cw3dd2w32x2b.cloudfront.net/wp-content/uploads/2015/01/matrix-to-quat.pdf
         public static QuaternionCustom LookRotation(Vec3 forward, Vec3 upwards)
         {
-            //It is a really big function so it is gonna be divided in two, the rotation matrix creation and the second part aplicattion.
-            //This is the first part, it is responsible for setting up the axes that will compose the quaternion rotation.
+            //It is a really big function so it is gonna be divided in two, the rotation matrix creation and the second part aplication.
+            //This is the first part, it is responsible for setting up the axis that will compose the quaternion rotation.
             forward = Vec3.Normalize(forward);
             Vec3 right = Vec3.Normalize(Vec3.Cross(upwards, forward));//Creating a third axis from the two parameters using the cross product of both.
             upwards = Vec3.Normalize(Vec3.Cross(forward, right));//We create the "up" vector again just to normalize it and ensure that there are no issues with the axes being misaligned or any strange anomalies.

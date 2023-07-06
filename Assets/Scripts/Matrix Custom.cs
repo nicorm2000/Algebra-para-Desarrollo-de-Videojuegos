@@ -314,11 +314,11 @@ namespace CustomMath
             }
         }
 
-        //https://byjus.com/maths/inverse-matrix/#:~:text=A%2D1%3D%20adj(A)%2Fdet(A)%2C&text=take%20the%20transpose%20of%20a%20cofactor%20matrix.&text=Here%2C%20Mij%20refers%20to,adjoint%20of%20a%20matrix%20here.
         //Formula to calculate the inverse of a matrix A^-1= adj(A)/det(A) (one of various methods)
         //f matrix A is non-singular (meaning it has an inverse), then there exists a matrix A-1 (called the inverse matrix of A) that satisfies the property:
         //AA-1 = A-1A = I, where I is the identity matrix.
         //In other words, when you multiply matrix A by its inverse A-1 or vice versa, the result is the identity matrix.
+        //https://byjus.com/maths/inverse-matrix/#:~:text=A-1%3D%20adj(A)%2Fdet(A)%2C&text=take%20the%20transpose%20of%20a%20cofactor%20matrix.&text=Here%2C%20Mij%20refers%20to,adjoint%20of%20a%20matrix%20here.
         public static MatrixCustom Inverse(MatrixCustom m) //Devuelve la inversa de la matriz ingresada
         {
             float detA = Determinant(m);//To have an inverse it nor only has to have a determinant but also the dterminant should not be equal to zero.
