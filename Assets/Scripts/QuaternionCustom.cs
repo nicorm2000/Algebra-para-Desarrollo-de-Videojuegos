@@ -295,7 +295,7 @@ namespace CustomMath
 
             float timeLeft = 1f - t;//The remaining time is calculated (to reach the rotation from "a" to "b").
 
-            if (Dot(a, b) < 0)//It checks if the dot product is greater than 0 to determine the shortest path for interpolation, and based on that,
+            if (Dot(a, b) >= 0)//It checks if the dot product is greater than 0 to determine the shortest path for interpolation, and based on that,
                               //either addition or subtraction is performed for the linear interpolation formula from "a" to "b."
             {
                 q.x = (timeLeft * a.x) + (t * b.x);
