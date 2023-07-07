@@ -461,6 +461,7 @@ namespace CustomMath
             //With all of this values up to here we create the components of a rotation matrix.
 
             //This is the second part.
+            //file:///C:/Users/Nico/Desktop/formula2.png
             float diagonals = m00 + m11 + m22;
             var quaternion = new QuaternionCustom();
 
@@ -536,8 +537,8 @@ namespace CustomMath
             float cosAngle = 0.0f;
 
             //Calculate sine and cosine of the y angle
-            sinAngle = Mathf.Sin(Mathf.Deg2Rad * y * 0.5f);
-            cosAngle = Mathf.Cos(Mathf.Deg2Rad * y * 0.5f);
+            sinAngle = Mathf.Sin(Mathf.Deg2Rad * y * 0.5f);//In the context of complex numbers and trigonometry, the sine function relates the input angle (in radians) to the imaginary component of the corresponding complex number.
+            cosAngle = Mathf.Cos(Mathf.Deg2Rad * y * 0.5f);//In the context of complex numbers and trigonometry, the cosine function relates the input angle (in radians) to the real component of the corresponding complex number.
             qy.Set(0, sinAngle, 0, cosAngle);//Euler formula: e^(iy) = cos(y) + i sin(y)
 
             //Calculate sine and cosine of the x angle
@@ -575,7 +576,7 @@ namespace CustomMath
             //Check if the test condition for positive y rotation is met
             if (test > 0.4995f * unit)
             {
-                v.y = 2f * Mathf.Atan2(rotation.y, rotation.x);//Calcualte the y angle using the arctan2 function
+                v.y = 2f * Mathf.Atan2(rotation.y, rotation.x);//Calculate the y angle using the arctan2 function
                 v.x = Mathf.PI / 2;//Set the x angle to pi/2
                 v.z = 0;//Set the z angle to 0
 
@@ -585,7 +586,7 @@ namespace CustomMath
             //Check if the test condition for negative y rotation is met
             if (test < -0.4995f * unit)
             {
-                v.y = -2f * Mathf.Atan2(rotation.y, rotation.x);//Calcualte the y angle using the arctan2 function with a negative sign
+                v.y = -2f * Mathf.Atan2(rotation.y, rotation.x);//Calculate the y angle using the arctan2 function with a negative sign
                 v.x = -Mathf.PI / 2;//Set the x angle to -pi/2
                 v.z = 0;//Set the z angle to 0
 
@@ -597,6 +598,7 @@ namespace CustomMath
             QuaternionCustom q = new QuaternionCustom(rotation.w, rotation.z, rotation.x, rotation.y);
 
             //Calculate the Euler angles using the components of 'q'
+            //file:///C:/Users/Nico/Desktop/formula.png
             v.y = Mathf.Atan2(2f * q.x * q.w + 2f * q.y * q.z, 1 - 2f * (q.z * q.z + q.w * q.w));//Calculate y angle
             v.x = Mathf.Asin(2f * (q.x * q.z - q.w * q.y));//Calculate x angle
             v.z = Mathf.Atan2(2f * q.x * q.y + 2f * q.z * q.w, 1 - 2f * (q.y * q.y + q.z * q.z));//Calculate z angle
@@ -631,14 +633,15 @@ namespace CustomMath
 
         public static QuaternionCustom Normalize(QuaternionCustom q)
         {
-            float mag = Mathf.Sqrt(Dot(q, q));
+            float mag = Mathf.Sqrt(Dot(q, q));//This line calculates the magnitude or length of the Quaternion q.
+                                              //It uses the Dot function, which calculates the dot product of q with itself. 
 
             if (mag < kEpsilon)
             {
                 return Identity;
             }
 
-            return new QuaternionCustom(q.x / mag, q.y / mag, q.z / mag, q.w / mag);
+            return new QuaternionCustom(q.x / mag, q.y / mag, q.z / mag, q.w / mag);//If the magnitude is not close to zero, the code proceeds to divide each component of the Quaternion q by the magnitude (mag) to normalize it.
         }
 
         public void Normalize()

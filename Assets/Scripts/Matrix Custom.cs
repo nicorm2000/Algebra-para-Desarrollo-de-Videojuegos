@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Linq;
 using UnityEngine;
 
 namespace CustomMath
@@ -482,12 +483,15 @@ namespace CustomMath
         //This function takes a quaternion q as input and returns a rotation matrix m that represents the rotation transformation corresponding to the given quaternion.
         public static MatrixCustom Rotate(Quaternion q)
         {
+            //Multiplying the quaternion components by 2 is a common step in calculating a rotation matrix from a quaternion. It helps simplify subsequent calculations.
             double num1 = q.x * 2f;//Multiply x component of the quaternion by 2.
             double num2 = q.y * 2f;//Multiply y component of the quaternion by 2.
             double num3 = q.z * 2f;//Multiply z component of the quaternion by 2.
+            //Squaring the components is necessary to obtain the terms required for the diagonal elements of the rotation matrix.
             double num4 = q.x * num1;//Square the x component.
             double num5 = q.y * num2;//Square the y component.
             double num6 = q.z * num3;//Square the z component.
+            //These terms are used to determine the off-diagonal elements of the rotation matrix.
             double num7 = q.x * num2;//Multiply x and y components.
             double num8 = q.x * num3;//Multiply x and z components.
             double num9 = q.y * num3;//Multiply y and z components.
@@ -498,22 +502,38 @@ namespace CustomMath
             MatrixCustom m;
 
             //By assigning these calculated values to the corresponding elements of the rotation matrix, the resulting matrix represents the desired rotation transformation.
-            m.m00 = (float)(1.0 - num5 + num6);//Assign the first element of the matrix.
-            m.m10 = (float)(num7 + num12);//Assign the second element of the matrix.
-            m.m20 = (float)(num8 - num11);//Assign the third element of the matrix.
-            m.m30 = 0.0f;//Assign the fourth element of the matrix.
-            m.m01 = (float)(num7 - num12);//Assign the fifth element of the matrix.
-            m.m11 = (float)(1.0 - num4 + num6);//Assign the sixth element of the matrix.
-            m.m21 = (float)(num9 + num10);//Assign the seventh element of the matrix.
-            m.m31 = 0.0f;//Assign the eighth element of the matrix.
-            m.m02 = (float)(num8 + num11);//Assign the ninth element of the matrix.
-            m.m12 = (float)(num9 - num10);//Assign the tenth element of the matrix.
-            m.m22 = (float)(1.0 - num4 + num5);//Assign the eleventh element of the matrix. 
-            m.m32 = 0.0f;//Assign the twelfth element of the matrix.
-            m.m03 = 0.0f;//Assign the thirteenth element of the matrix.
-            m.m13 = 0.0f;//Assign the fourteenth element of the matrix.
-            m.m23 = 0.0f;//Assign the fifteenth element of the matrix.
-            m.m33 = 1f;//Assign the sixteenth element of the matrix.
+            m.m00 = (float)(1.0 - num5 + num6);//This element represents the scale factor or cosine of the rotation around the X-axis.
+                                               //It is derived from the quaternion components and is calculated as 1 minus the squared Y component plus the squared Z component.
+            m.m10 = (float)(num7 + num12);//This element represents the sine of the rotation around the X-axis.
+                                          //It is derived from the quaternion components and is calculated by adding the product of the X and Y components with the product of the scalar component and the Z component.
+            m.m20 = (float)(num8 - num11);//This element represents the sine of the rotation around the X-axis.
+                                          //It is derived from the quaternion components and is calculated by subtracting the product of the X and Z components with the product of the scalar component and the Y component.
+            m.m30 = 0.0f;//This element represents the translation in the X direction.
+                         //Since this is a rotation matrix, there is no translation component along the X-axis, so it is set to 0.
+            m.m01 = (float)(num7 - num12);//This element represents the sine of the rotation around the Y-axis.
+                                          //It is derived from the quaternion components and is calculated by subtracting the product of the X and Y components with the product of the scalar component and the Z component.
+            m.m11 = (float)(1.0 - num4 + num6);//This element represents the scale factor or cosine of the rotation around the Y-axis.
+                                               //It is derived from the quaternion components and is calculated as 1 minus the squared X component plus the squared Z component.
+            m.m21 = (float)(num9 + num10);//This element represents the sine of the rotation around the Y-axis.
+                                          //It is derived from the quaternion components and is calculated by adding the product of the Y and Z components with the product of the scalar component and the X component.
+            m.m31 = 0.0f;//This element represents the translation in the Y direction.
+                         //Since this is a rotation matrix, there is no translation component along the Y-axis, so it is set to 0.
+            m.m02 = (float)(num8 + num11);//This element represents the sine of the rotation around the Z-axis.
+                                          //It is derived from the quaternion components and is calculated by adding the product of the X and Z components with the product of the scalar component and the Y component.
+            m.m12 = (float)(num9 - num10);//This element represents the sine of the rotation around the Z-axis.
+                                          //It is derived from the quaternion components and is calculated by subtracting the product of the Y and Z components with the product of the scalar component and the X component.
+            m.m22 = (float)(1.0 - num4 + num5);//This element represents the scale factor or cosine of the rotation around the Z-axis.
+                                               //It is derived from the quaternion components and is calculated as 1 minus the squared X component plus the squared Y component.
+            m.m32 = 0.0f;//This element represents the translation in the Z direction.
+                         //Since this is a rotation matrix, there is no translation component along the Z-axis, so it is set to 0.
+            m.m03 = 0.0f;//This element represents the translation in the X direction.
+                         //Since this is a rotation matrix, there is no translation component along the X-axis, so it is set to 0.
+            m.m13 = 0.0f;//This element represents the translation in the Y direction.
+                         //Since this is a rotation matrix, there is no translation component along the Y-axis, so it is set to 0.
+            m.m23 = 0.0f;//This element represents the translation in the Z direction.
+                         //Since this is a rotation matrix, there is no translation component along the Z-axis, so it is set to 0.
+            m.m33 = 1f;//This element represents the homogeneous coordinate or scale factor.
+                       //It is always set to 1 in a rotation matrix, as it ensures that translations are not affected by the rotation transformation.
 
             return m;
         }
