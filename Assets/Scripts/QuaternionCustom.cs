@@ -134,12 +134,14 @@ namespace CustomMath
         #region Operators
 
         //The multiplication of two quaternions is non-commutative, meaning the order in which you multiply them matters.
+        //Formula -> q1 * q2 = (w1w2 - x1x2 - y1y2 - z1z2) + (w1x2 + x1w2 + y1z2 - z1y2)i + (w1y2 - x1z2 + y1w2 + z1x2)j + (w1z2 + x1y2 - y1x2 + z1w2)k
         public static QuaternionCustom operator *(QuaternionCustom lhs, QuaternionCustom rhs)
         {
             float x = lhs.w * rhs.x + lhs.x * rhs.w + lhs.y * rhs.z - lhs.z * rhs.y;
             float y = lhs.w * rhs.y - lhs.x * rhs.z + lhs.y * rhs.w + lhs.z * rhs.x;
             float z = lhs.w * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x + lhs.z * rhs.w;
             float w = lhs.w * rhs.w - lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z;
+
             return new QuaternionCustom(x, y, z, w);
         }
 
