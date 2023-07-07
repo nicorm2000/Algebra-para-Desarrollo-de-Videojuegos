@@ -550,6 +550,45 @@ namespace CustomMath
 
         }
 
+        //The checks if the matrix represents a valid translation-rotation-scaling (TRS) transformation.
+        public bool ValidTRS()
+        {
+            //Check if the matrix is a valid TRS matrix
+            //Translation: The last row of the matrix should be (0, 0, 0, 1).
+            //Translation Check: The method first checks if the last row of the matrix is (0, 0, 0, 1).
+            //This ensures that the translation part of the matrix is valid.
+            if (m30 != 0 || m31 != 0 || m32 != 0 || m33 != 1)
+            {
+                return false;
+            }
+
+            // Rotation: The upper-left 3x3 submatrix should be an orthogonal matrix
+            //Rotation Check: The method checks if the upper-left 3x3 submatrix (columns 0, 1, and 2) is an orthogonal matrix.
+            //It does this by verifying that the dot products of any two columns are approximately zero.
+            //It also checks if the magnitudes of the columns are approximately 1.
+            //These checks ensure that the rotation part of the matrix is valid.
+            Vec3 column0 = new Vec3(m00, m10, m20);
+            Vec3 column1 = new Vec3(m01, m11, m21);
+            Vec3 column2 = new Vec3(m02, m12, m22);
+
+            if (!Mathf.Approximately(Vec3.Dot(column0, column1), 0) ||
+                !Mathf.Approximately(Vec3.Dot(column0, column2), 0) ||
+                !Mathf.Approximately(Vec3.Dot(column1, column2), 0))
+            {
+                return false;
+            }
+
+            //Scale: The scale factors should be positive
+            //Scale Check: The method verifies that the diagonal elements of the matrix (m00, m11, and m22) representing the scale factors are positive.
+            //This ensures that the scale part of the matrix is valid.
+            if (m00 < 0 || m11 < 0 || m22 < 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         //The MultiplyVector method multiplies a 4D vector by the matrix.
         //It applies the transformation represented by the matrix to the vector and returns the resulting transformed vector.
         //Multiplies the x, y, and z components of the vector, but does not multiply the w component.
