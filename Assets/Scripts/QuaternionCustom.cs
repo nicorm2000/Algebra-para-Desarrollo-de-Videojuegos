@@ -407,6 +407,9 @@ namespace CustomMath
             this = FromToRotation(fromDirection, toDirection);
         }
 
+        //Calculates the interpolated quaternion between two input quaternions (from and to) based on a specified maximum rotation angle (maxDegreesDelta).
+        //It first calculates the normalized delta angle (t) by dividing maxDegreesDelta by the angle between the from and to quaternions.
+        //Then, it performs spherical interpolation (Slerp) between the from and to quaternions using t as the interpolation factor to smoothly rotate from from to to with the specified maximum rotation angle.
         public static QuaternionCustom RotateTowards(QuaternionCustom from, QuaternionCustom to, float maxDegreesDelta)
         {
             float t = Mathf.Min(1f, maxDegreesDelta / Angle(from, to));//Calculate the normalized delta angle (t) by dividing maxDegreesDelta by the angle between from and to quaternions.
@@ -447,7 +450,7 @@ namespace CustomMath
             //This is the first part, it is responsible for setting up the axis that will compose the quaternion rotation.
             forward = Vec3.Normalize(forward);
             Vec3 right = Vec3.Normalize(Vec3.Cross(upwards, forward));//Creating a third axis from the two parameters using the cross product of both.
-            upwards = Vec3.Normalize(Vec3.Cross(forward, right));//We create the "up" vector again just to normalize it and ensure that there are no issues with the axes being misaligned or any strange anomalies.
+            upwards = Vec3.Normalize(Vec3.Cross(forward, right));//We create the "up" vector again just to normalize it and ensure that there are no issues with the axis being misaligned or any strange anomalies.
 
             float m00 = right.x;
             float m10 = upwards.x;

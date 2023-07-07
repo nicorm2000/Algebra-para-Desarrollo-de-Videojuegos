@@ -322,7 +322,7 @@ namespace CustomMath
         //https://byjus.com/maths/inverse-matrix/#:~:text=A-1%3D%20adj(A)%2Fdet(A)%2C&text=take%20the%20transpose%20of%20a%20cofactor%20matrix.&text=Here%2C%20Mij%20refers%20to,adjoint%20of%20a%20matrix%20here.
         public static MatrixCustom Inverse(MatrixCustom m) //Devuelve la inversa de la matriz ingresada
         {
-            float detA = Determinant(m);//To have an inverse it nor only has to have a determinant but also the dterminant should not be equal to zero.
+            float detA = Determinant(m);//To have an inverse it nor only has to have a determinant but also the detrminant should not be equal to zero.
                                         //When the determinant is zero, it means the matrix is singular, and there is no unique inverse.
                                         //Only square matrices have determinants!!!
 
@@ -343,7 +343,8 @@ namespace CustomMath
                 //https://www.problemasyecuaciones.com/matrices/matriz-adjunta-ejemplos-calcular-matrices-cofactores.html
                 //The Steps:
                 //1)We start by defining an auxiliary matrix where each element represents the cofactor of the corresponding element in the original matrix.
-                //2)For each element of the auxiliary matrix, we calculate its cofactor using cofactor expansion. This involves calculating the determinant of the submatrix obtained by excluding the row and column containing that element, and multiplying it by the appropriate sign.
+                //2)For each element of the auxiliary matrix, we calculate its cofactor using cofactor expansion.
+                //This involves calculating the determinant of the submatrix obtained by excluding the row and column containing that element, and multiplying it by the appropriate sign.
                 //3)We assign the calculated cofactors to the elements of the adjugate matrix.
                 //4)We repeat steps 2 and 3 for the remaining elements of the first row.
                 //5)We continue this process for the remaining rows, calculating cofactors and assigning them to the adjugate matrix.
@@ -487,10 +488,12 @@ namespace CustomMath
             double num1 = q.x * 2f;//Multiply x component of the quaternion by 2.
             double num2 = q.y * 2f;//Multiply y component of the quaternion by 2.
             double num3 = q.z * 2f;//Multiply z component of the quaternion by 2.
+
             //Squaring the components is necessary to obtain the terms required for the diagonal elements of the rotation matrix.
             double num4 = q.x * num1;//Square the x component.
             double num5 = q.y * num2;//Square the y component.
             double num6 = q.z * num3;//Square the z component.
+
             //These terms are used to determine the off-diagonal elements of the rotation matrix.
             double num7 = q.x * num2;//Multiply x and y components.
             double num8 = q.x * num3;//Multiply x and z components.
@@ -582,7 +585,10 @@ namespace CustomMath
                 return false;
             }
 
-            // Rotation: The upper-left 3x3 submatrix should be an orthogonal matrix
+            //Rotation: The upper-left 3x3 submatrix should be an orthogonal matrix.
+            //An orthogonal matrix is a square matrix where the columns and rows are orthogonal unit vectors.
+            //This means that the dot product of any two columns (or rows) is zero, and the length of each column (or row) is 1.
+            //In other words, the transpose of the matrix is equal to its inverse.
             //Rotation Check: The method checks if the upper-left 3x3 submatrix (columns 0, 1, and 2) is an orthogonal matrix.
             //It does this by verifying that the dot products of any two columns are approximately zero.
             //It also checks if the magnitudes of the columns are approximately 1.
