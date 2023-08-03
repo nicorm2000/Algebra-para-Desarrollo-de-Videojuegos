@@ -1,8 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using CustomMath;
-using System.Linq;
-using System;
 
 public class MeshCollider : MonoBehaviour
 {
@@ -13,8 +12,8 @@ public class MeshCollider : MonoBehaviour
     public Vec3 nearestPoint;
 
     // Summary:
-    // Create a Ray struct that will be used later on to check if the point is in the plane
-    // Add an origin point, and a dest point as well as a Ray constructor
+    // Create a Ray struct that will be used later on to check if the point is in the plane.
+    // Add an origin point, and a dest point as well as a Ray constructor.
     struct Ray
     {
         public Vec3 origin;
@@ -28,10 +27,10 @@ public class MeshCollider : MonoBehaviour
     }
 
     // Summary:
-    // Starts by creating every plane that will be used in the code
-    // Checks for 3 vertices so that the plane can be created using the 3 point plane constructor and adds it to the list
-    // Sets the plane passed by parameter based on a point inside the plane and the normal to orient it
-    // Aux is the normal(that is obtained by calculatingg the normals of the mesh), and the normal multiplied by the distance gives me the point
+    // Starts by creating every plane that will be used in the code.
+    // Checks for 3 vertices so that the plane can be created using the 3 point plane constructor and adds it to the list.
+    // Sets the plane passed by parameter based on a point inside the plane and the normal to orient it.
+    // Aux is the normal(that is obtained by calculatingg the normals of the mesh), and the normal multiplied by the distance gives me the point.
     private void Start()
     {
         Mesh mesh = GetComponent<MeshFilter>().mesh;
@@ -58,14 +57,14 @@ public class MeshCollider : MonoBehaviour
     }
 
     // Summary:
-    // Create an empty plane, if there is an already existing plane in the list it gets equalized
-    // In the loop the actaul vertex are obtained
-    // Afterwards the plane is created with the vertices
-    // The normal is flipped so the plane isn't inverted
-    // The plane is added to the list
-    // Then the nearest point to the plane is checked
-    // Then the points to check are added 
-    // Lastly if the points are inside of the mesh they are added
+    // Create an empty plane, if there is an already existing plane in the list it gets equalized.
+    // In the loop the actual vertex are obtained.
+    // Afterwards the plane is created with the vertices.
+    // The normal is flipped so the plane isn't inverted.
+    // The plane is added to the list.
+    // Then the nearest point to the plane is checked.
+    // Then the points to check are added.
+    // Lastly if the points are inside of the mesh they are added.
     private void Update()
     {
         Mesh mesh = GetComponent<MeshFilter>().mesh;
@@ -98,7 +97,7 @@ public class MeshCollider : MonoBehaviour
     }
 
     // Summary:
-    // Gets the nearest point by checking x, y and z points and then assigns them to the nearestPoint Vec3
+    // Gets the nearest point by checking x, y and z points and then assigns them to the nearestPoint Vec3.
     private void NearestPoint()
     {
         var x = ValueNearestPosition(transform.position.x);
@@ -111,7 +110,7 @@ public class MeshCollider : MonoBehaviour
     // Summary:
     // Gets the nearest position value
     // The position is divided by the grids delta
-    // Then it is checked if the value minus the absolute value of he point (so we get a value between 0 and 0.99), if it is less than half we add 1, if not we return that value
+    // Then it is checked if the value minus the absolute value of the point (so we get a value between 0 and 0.99), if it is less than half we add 1, if not we return that value
     // After it is checkd if the value is clamped between 0 and the grid size minus 1
     // As how clamp works if the value is between those values it returns the value, if not it returns the maximum or minimum
     // The value is returned as an int
@@ -219,7 +218,6 @@ public class MeshCollider : MonoBehaviour
             if (counter % 2 == 1)
             {
                 pointsInsideMesh.Add(point);
-                Debug.Log("apa");
             }
         }
     }
@@ -232,7 +230,7 @@ public class MeshCollider : MonoBehaviour
     // If the absolute value of the denominator is bigger than epsilon it continues, else, the would be perpendicular
     // Then two aux variables are created for later use, the first one is the multiplication between the normal and the distance
     // These two are multiplied to give the signed distance from a point to the plane
-    // If the signed distance is positive the point is on the side of the plane where the normal vector points, if negtaive it would be the other way around 
+    // If the signed distance is positive the point is on the side of the plane where the normal vector points, if negative it would be the other way around 
     // The second one does the substraction between that value and signed distance, this essentially translates the distance to be relative to the point
     // Then the Dot product is done again between the aux2 and the normal, which will give as a result the signed distance from the origin point to the plane
     // If this divided by the denominator is greater or equal to epsilon then the point is within the plane or very close, because we use epsilon

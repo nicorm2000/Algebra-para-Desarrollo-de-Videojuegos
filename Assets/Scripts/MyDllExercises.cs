@@ -119,7 +119,7 @@ public class MyDllExercises : MonoBehaviour
 
                 //Summary
                 //First vector A and vector B are added, the result is the displacement vector between the 2
-                //Second the displacement vector is normalized, which means it scales the vetor to have a magnitude of 1 while preserving its direction
+                //Second the displacement vector is normalized, which means it scales the vector to have a magnitude of 1 while preserving its direction
                 //Third the distance between vector A and B is calculated
                 //Fourth the normalized vector is multiplied by the distance, as a result it gives a vector with the same direction as vector A and B, but its magnitude is equal to the distance between both points
                 //The displacement of a vector (vector de desplazamiento) is the change of position or the displacement between two points
@@ -143,7 +143,7 @@ public class MyDllExercises : MonoBehaviour
 
                 //Summary
                 //Lerp Unclamped function that goes from B to A based on time variable
-                //Little loop that lets me reset time if it is higher than timeLimit variablem which I set at 10
+                //Little loop that lets me reset time if it is higher than timeLimit variable which I set at 10
                 //Same as before but now it goes backwards and with more time
 
                 time = time > timeLimit ? 0 : time + Time.deltaTime;

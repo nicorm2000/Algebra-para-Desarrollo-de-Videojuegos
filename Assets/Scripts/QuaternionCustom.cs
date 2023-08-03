@@ -135,6 +135,12 @@ namespace CustomMath
 
         //The multiplication of two quaternions is non-commutative, meaning the order in which you multiply them matters.
         //Formula -> q1 * q2 = (w1w2 - x1x2 - y1y2 - z1z2) + (w1x2 + x1w2 + y1z2 - z1y2)i + (w1y2 - x1z2 + y1w2 + z1x2)j + (w1z2 + x1y2 - y1x2 + z1w2)k
+        //i*j = k
+        //j*k = i
+        //k*i = j
+        //j*i = -k
+        //k*j = -i
+        //i*k = -j
         public static QuaternionCustom operator *(QuaternionCustom lhs, QuaternionCustom rhs)
         {
             float x = lhs.w * rhs.x + lhs.x * rhs.w + lhs.y * rhs.z - lhs.z * rhs.y;
@@ -228,7 +234,7 @@ namespace CustomMath
         //The formula for the angle is 2 * acos(abs(dot(q1, q2)))
         //The dot function calculates the dot product of the two quaternions, and abs ensures a positive value.
         //The acos function calculates the arccosine (inverse cosine) of the dot product.
-        //By multiplying the result by 2, you obtain the angle between the quaternions.
+        //By multiplying the result by 2 (because the acos gives me half the angle), you obtain the angle between the quaternions.
         public static float Angle(QuaternionCustom a, QuaternionCustom b)
         {
             float dot = Dot(a, b);
@@ -298,7 +304,7 @@ namespace CustomMath
             float timeLeft = 1f - t;//The remaining time is calculated (to reach the rotation from "a" to "b").
 
             if (Dot(a, b) >= 0)//It checks if the dot product is greater than 0 to determine the shortest path for interpolation, and based on that,
-                              //either addition or subtraction is performed for the linear interpolation formula from "a" to "b."
+                               //either addition or subtraction is performed for the linear interpolation formula from "a" to "b."
             {
                 q.x = (timeLeft * a.x) + (t * b.x);
                 q.y = (timeLeft * a.y) + (t * b.y);
@@ -340,10 +346,10 @@ namespace CustomMath
         //Calculate intermediate factors t1 = Mathf.Sin((1 - t) * angle) * invSinAngle and t2 = Mathf.Sin(t * angle) * invSinAngle.
         //Interpolate the components of the quaternions using the formula:
         //new QuaternionCustom(
-        //    a.x* t1 + b.x* t2,
-        //    a.y* t1 + b.y* t2,
-        //    a.z* t1 + b.z* t2,
-        //    a.w* t1 + b.w* t2
+        //    a.x * t1 + b.x * t2,
+        //    a.y * t1 + b.y * t2,
+        //    a.z * t1 + b.z * t2,
+        //    a.w * t1 + b.w * t2
         //    )
         //Return the interpolated quaternion.
         //If cosAngle is greater than or equal to 0.95f, use the Lerp function to interpolate between a and b.
@@ -363,7 +369,7 @@ namespace CustomMath
 
             float t1, t2;//Intermediate variables for interpolation factors.
 
-            if (cosAngle < 0.95f) //Check if the angle between a and b is smaller than 0.95 (cos 18 degrees).
+            if (cosAngle < 0.95f)//Check if the angle between a and b is smaller than 0.95 (cos 18 degrees).
             {
                 float angle = Mathf.Acos(cosAngle);//Calculate the angle between a and b using acos.
                 float sinAngle = Mathf.Sin(angle);//Calculate the sine of the angle.
@@ -385,7 +391,7 @@ namespace CustomMath
             }
             else
             {
-                return Lerp(a, b, t);//If the angle is larger, perform linear interpolation (Lerp) instead.
+                return LerpUnclamped(a, b, t);//If the angle is larger, perform linear interpolation (Lerp) instead.
                                      //Because when the angle between the two quaternions is larger than 0.95, the difference between them becomes close to a straight line in the quaternion space.
             }
         }
@@ -466,7 +472,6 @@ namespace CustomMath
             //With all of this values up to here we create the components of a rotation matrix.
 
             //This is the second part.
-            //file:///C:/Users/Nico/Desktop/formula2.png
             float diagonals = m00 + m11 + m22;
             var quaternion = new QuaternionCustom();
 
@@ -565,7 +570,7 @@ namespace CustomMath
             return Euler(euler.x, euler.y, euler.z);
         }
 
-        //To convert from Euler angles in radians to degrees, you can use the formula: degrees = radians* (180 / π)
+        //To convert from Euler angles in radians to degrees, you can use the formula: degrees = radians * (180 / π)
         public static Vec3 ToEulerRad(QuaternionCustom rotation)
         {
             float sqw = rotation.w * rotation.w;//Square of the quaternion component w
@@ -603,7 +608,7 @@ namespace CustomMath
             QuaternionCustom q = new QuaternionCustom(rotation.w, rotation.z, rotation.x, rotation.y);
 
             //Calculate the Euler angles using the components of 'q'
-            //file:///C:/Users/Nico/Desktop/formula.png
+            //https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
             v.y = Mathf.Atan2(2f * q.x * q.w + 2f * q.y * q.z, 1 - 2f * (q.z * q.z + q.w * q.w));//Calculate y angle
             v.x = Mathf.Asin(2f * (q.x * q.z - q.w * q.y));//Calculate x angle
             v.z = Mathf.Atan2(2f * q.x * q.y + 2f * q.z * q.w, 1 - 2f * (q.y * q.y + q.z * q.z));//Calculate z angle

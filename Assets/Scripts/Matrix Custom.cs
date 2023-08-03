@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml.Linq;
 using UnityEngine;
 
 namespace CustomMath
@@ -29,7 +28,7 @@ namespace CustomMath
 
         #region constructor
 
-        //Assigns each value to eaach position in the 4x4 matrix
+        //Assigns each value to each position in the 4x4 matrix
         public MatrixCustom(Vector4 col0, Vector4 col1, Vector4 col2, Vector4 col3)
         {
             m00 = col0.x;
@@ -258,7 +257,7 @@ namespace CustomMath
         {
             get
             {
-                //Get the magnitude of each column vector using the GetColumn method and create a new Vec3 object with the magnitudes
+                //Get the magnitude of each column vector using the GetColumn method and create a new Vec3 object with the magnitudes.
                 //In a 4x4 matrix, the first column represents the scaling applied along the x-axis, the second column represents the scaling along the y-axis, and the third column represents the scaling along the z-axis. 
                 //By calculating the magnitude of each column vector, you can determine the scale factors along each axis. 
                 return new Vec3(GetColumn(0).magnitude, GetColumn(1).magnitude, GetColumn(2).magnitude);
@@ -299,7 +298,7 @@ namespace CustomMath
         //2)By multiplying any matrix by the unit matrix, the proper matrix is ​​obtained.
         //3)We always get a matrix identity after multiplying two inverse matrices.
         //A = [2, 0; 0, 2]  (inverse matrix of B), B = [0.5, 0; 0, 0.5] (inverse matrix of A)
-        //A* B = [20.5 + 00, 20 + 00.5; 00.5 + 20, 00 + 20.5] = [1, 0; 0, 1]
+        //A * B = [20.5 + 00, 20 + 00.5; 00.5 + 20, 00 + 20.5] = [1, 0; 0, 1]
         //https://matematicasguia.com/que-es-una-matriz-identidad/
         public static MatrixCustom identity
         {
@@ -316,7 +315,7 @@ namespace CustomMath
         }
 
         //Formula to calculate the inverse of a matrix A^-1= adj(A)/det(A) (one of various methods)
-        //f matrix A is non-singular (meaning it has an inverse), then there exists a matrix A-1 (called the inverse matrix of A) that satisfies the property:
+        //If matrix A is non-singular (meaning it has an inverse), then there exists a matrix A-1 (called the inverse matrix of A) that satisfies the property:
         //AA-1 = A-1A = I, where I is the identity matrix.
         //In other words, when you multiply matrix A by its inverse A-1 or vice versa, the result is the identity matrix.
         //https://byjus.com/maths/inverse-matrix/#:~:text=A-1%3D%20adj(A)%2Fdet(A)%2C&text=take%20the%20transpose%20of%20a%20cofactor%20matrix.&text=Here%2C%20Mij%20refers%20to,adjoint%20of%20a%20matrix%20here.
@@ -619,7 +618,7 @@ namespace CustomMath
         //It applies the transformation represented by the matrix to the vector and returns the resulting transformed vector.
         //Multiplies the x, y, and z components of the vector, but does not multiply the w component.
         //It treats the vector as a direction and magnitude, considering only the rotation part of the matrix.
-        public Vec3 MultiplyVector(Vector3 v)
+        public Vec3 MultiplyVector(Vec3 v)
         {
             Vec3 v3;
             v3.x = (float)((double)m00 * (double)v.x + (double)m01 * (double)v.y + (double)m02 * (double)v.z);
@@ -652,6 +651,7 @@ namespace CustomMath
             v3.z = (float)((double)m20 * (double)p.x + (double)m21 * (double)p.y + (double)m22 * (double)p.z) + m23;
 
             float num = 1f / ((float)((double)m30 * (double)p.x + (double)m31 * (double)p.y + (double)m32 * (double)p.z) + m33);
+
             v3.x *= num;
             v3.y *= num;
             v3.z *= num;
