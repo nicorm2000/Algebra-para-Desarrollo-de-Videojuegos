@@ -28,7 +28,8 @@ public class MyDllExercises : MonoBehaviour
     private Vec3 vectorC;
     private float time = 0;
     private const int timeLimit = 10;
-
+    private float t5;
+    private float t10;
     void Start()
     {
         Vector3Debugger.AddVector(vectorA, Color.magenta, "A");
@@ -124,8 +125,8 @@ public class MyDllExercises : MonoBehaviour
                 //Fourth the normalized vector is multiplied by the distance, as a result it gives a vector with the same direction as vector A and B, but its magnitude is equal to the distance between both points
                 //The displacement of a vector (vector de desplazamiento) is the change of position or the displacement between two points
 
-                vectorC = Vec3.Normalize(vectorA + vectorB) * Vec3.Distance(vectorA, vectorB);//Difiere en valores negativos
-
+                vectorC = Vec3.Normalize(vectorA + vectorB) * Vec3.Distance(vectorA, vectorB);
+                
                 break;
 
             case Exercise.Nueve:
