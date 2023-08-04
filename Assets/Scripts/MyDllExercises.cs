@@ -28,8 +28,7 @@ public class MyDllExercises : MonoBehaviour
     private Vec3 vectorC;
     private float time = 0;
     private const int timeLimit = 10;
-    private float t5;
-    private float t10;
+
     void Start()
     {
         Vector3Debugger.AddVector(vectorA, Color.magenta, "A");
