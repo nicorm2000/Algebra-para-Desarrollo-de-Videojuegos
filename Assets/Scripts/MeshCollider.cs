@@ -30,7 +30,7 @@ public class MeshCollider : MonoBehaviour
     // Starts by creating every plane that will be used in the code.
     // Checks for 3 vertices so that the plane can be created using the 3 point plane constructor and adds it to the list.
     // Sets the plane passed by parameter based on a point inside the plane and the normal to orient it.
-    // Aux is the normal(that is obtained by calculatingg the normals of the mesh), and the normal multiplied by the distance gives me the point.
+    // Aux is the normal(that is obtained by calculating the normals of the mesh), and the normal multiplied by the distance gives me the point.
     private void Start()
     {
         Mesh mesh = GetComponent<MeshFilter>().mesh;

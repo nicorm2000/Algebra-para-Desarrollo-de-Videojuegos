@@ -421,6 +421,7 @@ namespace CustomMath
         }
 
         //Set the Transform, Rotation and Scale factors
+        //https://open.gl/transformations
         public void SetTRS(Vector3 pos, Quaternion q, Vector3 s)
         {
             this = TRS(pos, q, s);
