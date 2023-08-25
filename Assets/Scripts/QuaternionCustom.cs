@@ -17,7 +17,7 @@ namespace CustomMath
         //The eulerAngles property in the quaternion class converts the quaternion rotation into Euler angles in degrees.
         public Vec3 eulerAngles
         {
-            get => ToEulerRad(this) * Mathf.Rad2Deg;//It retrieves the value of the eulerAngles property.
+            get => ToEulerRad(this);//It retrieves the value of the eulerAngles property.
                                                     //It calls the ToEulerRad method on the current quaternion object to obtain the Euler angles in radians.
                                                     //It then multiplies the resulting Euler angles by Mathf.Rad2Deg to convert them to degrees.
 
